@@ -1,8 +1,7 @@
-.wrapper{
-    width: 340px;
-    /* height: 540px; */
-    padding: 30px 20px 60px 20px;
-    border-radius: 10px;
-    background-color: #314f6e;
-    border: 5px solid #243551;
+.wrapper {
+  width: 340px;
+  padding: 30px 20px 60px 20px;
+  border-radius: 10px;
+  background-color: #314f6e;
+  border: 5px solid #243551;
 }

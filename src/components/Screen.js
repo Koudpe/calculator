@@ -11,7 +11,7 @@ const Screen = ({ value = "" }) => {
   };
 
   return (
-    <Textfit style={screenColor} className="screen" mode="single" max={70}>
+    <Textfit style={screenColor} className='screen' mode='single' max={70}>
       {value}
     </Textfit>
   );
