@@ -5,15 +5,14 @@ import ButtonBox from "./components/ButtonBox";
 import Button from "./components/Button";
 
 const btnValues = [
-  ["C", "+-", "%", "/"],
-  [7, 8, 9, "X"],
-  [4, 5, 6, "-"],
   [1, 2, 3, "+"],
-  [0, ".", "="],
+  [4, 5, 6, "-"],
+  [7, 8, 9, "."],
+  [0, "X", "/", "="],
 ];
 
 const toLocaleString = (num) =>
-String(num).replace(/(?<!\..*)(\d)(?=(?:\d{3})+(?:\.|$))/g, "$1 ");
+  String(num).replace(/(?<!\..*)(\d)(?=(?:\d{3})+(?:\.|$))/g, "$1 ");
 
 const removeSpaces = (num) => num.toString().replace(/\s/g, "");
 
@@ -81,9 +80,10 @@ const App = () => {
           calc.num === "0" && calc.sign === "/"
             ? "Cant't divide with 0"
             : math(
-              Number(removeSpaces(calc.res)), 
-              Number(removeSpaces(calc.num)), 
-              calc.sign),
+                Number(removeSpaces(calc.res)),
+                Number(removeSpaces(calc.num)),
+                calc.sign
+              ),
         sign: "",
         num: 0,
       });
@@ -120,30 +120,38 @@ const App = () => {
     });
   };
 
+  const onClick = (e, btn) => {
+    switch (btn) {
+      case "C":
+        return resetClickHandler();
+      case "+-":
+        return invertClickHandler();
+      case "%":
+        return percentClickHandler();
+      case "=":
+        return equalsClickHandler();
+      case "/":
+      case "X":
+      case "-":
+      case "+":
+        return signClickHandler(e);
+      case ".":
+        return commaClickHandler(e);
+      default:
+        return numClickHandler(e);
+    }
+  };
+
   return (
     <Wrapper>
-      <Screen value={calc.num ? calc.num : calc.res} />
+      <Screen value={calc.num || calc.res} />
       <ButtonBox>
-        {btnValues.flat().map((btn = "", i) => (
+        {btnValues.flat().map((btn, i) => (
           <Button
             key={i}
             className={btn === "=" ? "equals" : ""}
             value={btn}
-            onClick={
-              btn === "C"
-                ? resetClickHandler
-                : btn === "+-"
-                ? invertClickHandler
-                : btn === "%"
-                ? percentClickHandler
-                : btn === "="
-                ? equalsClickHandler
-                : btn === "/" || btn === "X" || btn === "-" || btn === "+"
-                ? signClickHandler
-                : btn === "."
-                ? commaClickHandler
-                : numClickHandler
-            }
+            onClick={(event) => onClick(event, btn)}
           />
         ))}
       </ButtonBox>
